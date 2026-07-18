@@ -1,0 +1,27 @@
+import phonenumbers
+from phonenumbers import carrier, geocoder, timezone
+from colorama import Fore
+
+def lookup(number):
+    print(Fore.CYAN + f"\n[+] {number} sorgulanıyor...")
+    try:
+        parsed = phonenumbers.parse(number, None)
+        if phonenumbers.is_valid_number(parsed):
+            country = geocoder.country_name_for_number(parsed, "tr")
+            city = geocoder.description_for_number(parsed, "tr")
+            operator = carrier.name_for_number(parsed, "tr")
+            tz = timezone.time_zones_for_number(parsed)
+            
+            print(Fore.GREEN + f"""
+    Ülke     : {country}
+    Şehir    : {city}
+    Operatör : {operator}
+    Zaman    : {tz}
+    Format   : {phonenumbers.format_number(parsed, phonenumbers.PhoneNumberFormat.INTERNATIONAL)}
+            """)
+            print(Fore.CYAN + "[+] WhatsApp varlığı kontrol ediliyor...")
+            print("  WhatsApp: Bilinmiyor (gerçek kontrol için API gerekli)")
+        else:
+            print(Fore.RED + "[!] Geçersiz numara.")
+    except Exception as e:
+        print(Fore.RED + f"[!] Hata: {e}")
