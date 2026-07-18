@@ -1,0 +1,8 @@
+logs/
+__pycache__/
+*.pyc
+*.log
+*.txt
+.env
+config/api_keys.json
+sherlock/
